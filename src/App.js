@@ -4,11 +4,13 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css"; // Import global styles
 
-import Home from "./pages/Home";
-import InterviewPractice from "./pages/InterviewPractice";
-import JobFinder from "./pages/JobFinder";
-import ContactUs from "./pages/ContactUs";
-import MyProfile from "./pages/MyProfile";
+import Home from './pages/Home';
+import JobFinder from './pages/JobFinder';
+import ContactUs from './pages/ContactUs';
+import MyProfile from './pages/MyProfile';
+import InterviewPractice from './pages/InterviewPractice';
+import InterviewSettings from './pages/InterviewSettings';
+
 
 function App() {
   return (
@@ -43,7 +45,7 @@ function App() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/interview-practice">
+                <Link className="nav-link" to="/interview-settings">
                   Interview Practice
                 </Link>
               </li>
@@ -68,6 +70,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/interview-settings" element={<InterviewSettings />} />
           <Route path="/interview-practice" element={<InterviewPractice />} />
           <Route path="/job-finder" element={<JobFinder />} />
           <Route path="/contact-us" element={<ContactUs />} />
