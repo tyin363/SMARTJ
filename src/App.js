@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css"; // Import global styles
 
-import Home from './pages/Home';
-import InterviewPractice from './pages/InterviewPractice';
-import JobFinder from './pages/JobFinder';
-import ContactUs from './pages/ContactUs';
-import MyProfile from './pages/MyProfile';
+import Home from "./pages/Home";
+import InterviewPractice from "./pages/InterviewPractice";
+import JobFinder from "./pages/JobFinder";
+import ContactUs from "./pages/ContactUs";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -15,7 +16,12 @@ function App() {
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">
-            <img src="images/logo.png" alt="Search Icon" width="50" height="50" />
+            <img
+              src="images/logo.png"
+              alt="Search Icon"
+              width="50"
+              height="50"
+            />
             SMARTJ
           </Link>
           <button
