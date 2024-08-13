@@ -10,6 +10,7 @@ import ContactUs from './pages/ContactUs';
 import MyProfile from './pages/MyProfile';
 import InterviewPractice from './pages/InterviewPractice';
 import InterviewSettings from './pages/InterviewSettings';
+import SummaryPage from "./pages/SummaryPage";  
 
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
           <Route path="/job-finder" element={<JobFinder />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/summary" element={<SummaryPage />} />
         </Routes>
       </div>
     </Router>
