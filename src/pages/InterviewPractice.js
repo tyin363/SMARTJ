@@ -12,6 +12,7 @@ function InterviewPractice() {
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [videoURL, setVideoURL] = useState(null);
+  const [isWebcamAvailable, setIsWebcamAvailable] = useState(false);
   const timeLimit = 20;
   const [timerText, setTimerText] = useState(timeLimit);
   // CHANGED: Converted remainingTime to a state variable
@@ -28,6 +29,7 @@ function InterviewPractice() {
       .then(stream => {
         streamRef.current = stream; // Save the stream reference
         videoRef.current.srcObject = stream; // Set the video element's source to the stream
+        setIsWebcamAvailable(true);
       })
       .catch(error => {
         alert("No webcam detected. Please connect a webcam to continue.");
@@ -170,7 +172,7 @@ function InterviewPractice() {
       </div>
 
       <div className='button-container'>
-        {!isRecording && !isCountdownActive && (
+        {!isRecording && !isCountdownActive && isWebcamAvailable && (
           <button onClick={startRecording} className="btn btn-primary">Start New Recording</button>
         )}
         
