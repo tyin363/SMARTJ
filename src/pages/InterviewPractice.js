@@ -85,37 +85,73 @@ function InterviewPractice() {
     }
   };
 
-  function startRecording() {
+ /* function startRecording() {
     setIsReplay(false);
     setIsCountdownActive(true);
     // CHANGED: Reset remainingTime
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
-    
+    const countdown=setTimeout(() => {
+      setIsRecording(true); 
+      setRecordedChunks([]);
 
       try {
         // Attempt to create a MediaRecorder with the stream
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(stream => {
+         
+        })
+        .catch(error => {
+          // This is where the error is caught if getUserMedia fails
+          alert(`Failed to access microphone or webcam.`);
+        });
       
-        const countdown=setTimeout(() => {
-          setIsRecording(true); 
-          setRecordedChunks([]);
         mediaRecorderRef.current = new MediaRecorder(streamRef.current);
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
   
         mediaRecorderRef.current.start();
         
       
-        setIsCountdownActive(false);}, 3000);
+        setIsCountdownActive(false);
       
 
       } catch (error) {
         // Handle the case where the MediaRecorder fails to start
-        alert("Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure they are working and accessible, then reload the application.");
+        alert("Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure both are working and accessible, then reload the application.");
         setIsRecording(false); // Reset the recording state
         setIsCountdownActive(false); // Stop the countdown if it was running
       }
+    }, 3000);
+  }*/
+    function startRecording() {
+      setIsReplay(false);
+      setIsCountdownActive(true);
+      
+      // Reset remaining time and timer text
+      setRemainingTime(timeLimit);
+      setTimerText(timeLimit);
     
-  }
+      const countdown = setTimeout(() => {
+        setIsRecording(true); 
+        setRecordedChunks([]);
+    
+        // Attempt to create a MediaRecorder with the stream
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+          .then(stream => {
+            mediaRecorderRef.current = new MediaRecorder(stream); // Create a MediaRecorder with the stream
+            mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+            mediaRecorderRef.current.start(); // Start recording
+            setIsCountdownActive(false); // Stop the countdown
+          })
+          .catch(error => {
+            // This will handle any errors from getUserMedia
+            alert("Recording failed. Failed to access the microphone or webcam.\nEnsure that they are working and accessible.");
+            setIsRecording(false); 
+            setIsCountdownActive(false); 
+          });
+      }, 3000);
+    }
+    
 
   function stopRecording() {
     if (mediaRecorderRef.current) {
