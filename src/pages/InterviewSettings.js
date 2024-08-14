@@ -4,12 +4,12 @@ import "../InterviewSettings.css"; // Import the CSS file
 
 function InterviewSettings() {
   const [numQuestions, setNumQuestions] = useState(3); // Default number of questions
-  const [questionType, setQuestionType] = useState("Experiences"); // Default question type
+  const [questionType, setQuestionType] = useState("Behavioural"); // Default question type
   const [readingTime, setReadingTime] = useState(40); // Default reading time in seconds
   const [answerTime, setAnswerTime] = useState(120); // Default answer time in seconds
   const [answerType, setAnswerType] = useState("Text"); // Default answer type
 
-  const questionTypes = ["Technical", "Experiences"];
+  const questionTypes = ["Technical", "Behavioural"];
   const answerTypes = ["Text", "Voice", "Video"];
 
   const handleArrowClick = (setter, value, delta) => {

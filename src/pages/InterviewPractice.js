@@ -25,7 +25,7 @@ function InterviewPractice() {
 
   // Extract questionType from URL parameters
   const queryParams = new URLSearchParams(location.search);
-  const questionType = queryParams.get("questionType") || "Experiences";
+  const questionType = queryParams.get("questionType") || "Behavioural";
 
   useEffect(() => {
     navigator.mediaDevices
