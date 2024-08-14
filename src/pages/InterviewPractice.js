@@ -34,7 +34,7 @@ function InterviewPractice() {
         
       })
       .catch(error => {
-       alert("Your webcam and microphone must be accessible to continue.\nReload the application once they are both accessible.");
+       alert("Your webcam and microphone must be accessible to continue.\nReload the application once they are both accessible and ensure they remain accessible while recording.");
         console.error('Error accessing webcam or microphone', error);
         setAreCameraAndMicAvailable(false);
         // You can add additional error handling logic here, such as displaying a message to the user
@@ -73,11 +73,7 @@ function InterviewPractice() {
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]); // Dependency array to re-run the effect when isRecording changes
 
-  
-     
-      
     
-  
  
   // CHANGED: Updated to use the count parameter
   const updateTimer = (count) => {
@@ -90,13 +86,11 @@ function InterviewPractice() {
   };
 
   function startRecording() {
-    if(areCameraAndMicAvailable){
     setIsReplay(false);
     setIsCountdownActive(true);
     // CHANGED: Reset remainingTime
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
-    setTimerTextColor('black');
     const countdown=setTimeout(() => {
       setIsRecording(true); 
       setRecordedChunks([]);
@@ -107,7 +101,7 @@ function InterviewPractice() {
       mediaRecorderRef.current.start(); // Starts the recording process
       setIsCountdownActive(false);
     }, 3000);
-  }}
+  }
 
   function stopRecording() {
     if (mediaRecorderRef.current) {
