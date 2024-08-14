@@ -29,7 +29,12 @@ function InterviewPractice() {
         streamRef.current = stream; // Save the stream reference
         videoRef.current.srcObject = stream; // Set the video element's source to the stream
       })
-      .catch(error => console.error('Error accessing webcam:', error));
+      .catch(error => {
+        alert("No webcam detected. Please connect a webcam to continue.");
+        console.error('Error accessing webcam:', error);
+        // You can add additional error handling logic here, such as displaying a message to the user
+      });
+
 
     // Cleanup: stop the webcam when the component unmounts
     return () => {
