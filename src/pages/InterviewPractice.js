@@ -95,11 +95,20 @@ function InterviewPractice() {
       setIsRecording(true); 
       setRecordedChunks([]);
 
-      mediaRecorderRef.current = new MediaRecorder(streamRef.current); // Create a MediaRecorder with the stream
-      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-
-      mediaRecorderRef.current.start(); // Starts the recording process
-      setIsCountdownActive(false);
+      try {
+        // Attempt to create a MediaRecorder with the stream
+        mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+        mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+  
+        mediaRecorderRef.current.start(); // Starts the recording process
+        setIsCountdownActive(false);
+      } catch (error) {
+        // Handle the case where the MediaRecorder fails to start
+        console.error('Error starting MediaRecorder:', error);
+        alert("Failed to start recording. Please ensure your webcam and microphone are accessible and then reload the application.");
+        setIsRecording(false); // Reset the recording state
+        setIsCountdownActive(false); // Stop the countdown if it was running
+      }
     }, 3000);
   }
 
