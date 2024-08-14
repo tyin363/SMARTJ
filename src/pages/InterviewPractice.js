@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import Countdown from 'react-countdown';
 import '../InterviewPractice.css';
 
 function InterviewPractice() {
   const navigate = useNavigate();
+
   
   const [color,setTimerTextColor]=useState('black');
   const [isRecording, setIsRecording] = useState(false);
@@ -12,7 +13,7 @@ function InterviewPractice() {
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [videoURL, setVideoURL] = useState(null);
-  const [isWebcamAvailable, setIsWebcamAvailable] = useState(false);
+  const [areCameraAndMicAvailable, setAreCameraAndMicAvailable] = useState(false);
   const timeLimit = 20;
   const [timerText, setTimerText] = useState(timeLimit);
   // CHANGED: Converted remainingTime to a state variable
@@ -29,11 +30,13 @@ function InterviewPractice() {
       .then(stream => {
         streamRef.current = stream; // Save the stream reference
         videoRef.current.srcObject = stream; // Set the video element's source to the stream
-        setIsWebcamAvailable(true);
+        setAreCameraAndMicAvailable(true);
+        
       })
       .catch(error => {
-        alert("No webcam detected. Please connect a webcam to continue.");
-        console.error('Error accessing webcam:', error);
+       alert("Your webcam and microphone must be accessible to continue.\nReload the application once they are both accessible.");
+        console.error('Error accessing webcam or microphone', error);
+        setAreCameraAndMicAvailable(false);
         // You can add additional error handling logic here, such as displaying a message to the user
       });
 
@@ -46,6 +49,9 @@ function InterviewPractice() {
       }
     };
   }, []);
+  
+
+
 
   useEffect(() => {
     // Check if the recording is active
@@ -67,6 +73,12 @@ function InterviewPractice() {
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]); // Dependency array to re-run the effect when isRecording changes
 
+  
+     
+      
+    
+  
+ 
   // CHANGED: Updated to use the count parameter
   const updateTimer = (count) => {
     setTimerTextColor(count < 11 ? 'red' : 'black');
@@ -78,6 +90,7 @@ function InterviewPractice() {
   };
 
   function startRecording() {
+    if(areCameraAndMicAvailable){
     setIsReplay(false);
     setIsCountdownActive(true);
     // CHANGED: Reset remainingTime
@@ -94,7 +107,7 @@ function InterviewPractice() {
       mediaRecorderRef.current.start(); // Starts the recording process
       setIsCountdownActive(false);
     }, 3000);
-  }
+  }}
 
   function stopRecording() {
     if (mediaRecorderRef.current) {
@@ -172,8 +185,8 @@ function InterviewPractice() {
       </div>
 
       <div className='button-container'>
-        {!isRecording && !isCountdownActive && isWebcamAvailable && (
-          <button onClick={startRecording} className="btn btn-primary">Start New Recording</button>
+        {!isRecording && !isCountdownActive && areCameraAndMicAvailable && areCameraAndMicAvailable &&  (
+          <button onClick={startRecording}  className="btn btn-primary">Start New Recording</button>
         )}
         
         <button 
