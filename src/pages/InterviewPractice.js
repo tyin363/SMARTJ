@@ -85,44 +85,8 @@ function InterviewPractice() {
     }
   };
 
- /* function startRecording() {
-    setIsReplay(false);
-    setIsCountdownActive(true);
-    // CHANGED: Reset remainingTime
-    setRemainingTime(timeLimit);
-    setTimerText(timeLimit);
-    const countdown=setTimeout(() => {
-      setIsRecording(true); 
-      setRecordedChunks([]);
+ 
 
-      try {
-        // Attempt to create a MediaRecorder with the stream
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-        .then(stream => {
-         
-        })
-        .catch(error => {
-          // This is where the error is caught if getUserMedia fails
-          alert(`Failed to access microphone or webcam.`);
-        });
-      
-        mediaRecorderRef.current = new MediaRecorder(streamRef.current);
-        mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-  
-        mediaRecorderRef.current.start();
-        
-      
-        setIsCountdownActive(false);
-      
-
-      } catch (error) {
-        // Handle the case where the MediaRecorder fails to start
-        alert("Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure both are working and accessible, then reload the application.");
-        setIsRecording(false); // Reset the recording state
-        setIsCountdownActive(false); // Stop the countdown if it was running
-      }
-    }, 3000);
-  }*/
     function startRecording() {
       setIsReplay(false);
       setIsCountdownActive(true);
