@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "question": "What is the time complexity of binary search?"
+  },
+  {
+    "id": 2,
+    "question": "Explain the difference between a stack and a queue."
+  },
+  {
+    "id": 3,
+    "question": "What is polymorphism in object-oriented programming?"
+  }
+]
