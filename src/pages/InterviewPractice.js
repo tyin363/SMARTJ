@@ -91,25 +91,30 @@ function InterviewPractice() {
     // CHANGED: Reset remainingTime
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
-    const countdown=setTimeout(() => {
-      setIsRecording(true); 
-      setRecordedChunks([]);
+    
 
       try {
         // Attempt to create a MediaRecorder with the stream
+      
+        const countdown=setTimeout(() => {
+          setIsRecording(true); 
+          setRecordedChunks([]);
         mediaRecorderRef.current = new MediaRecorder(streamRef.current);
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
   
-        mediaRecorderRef.current.start(); // Starts the recording process
-        setIsCountdownActive(false);
+        mediaRecorderRef.current.start();
+        
+      
+        setIsCountdownActive(false);}, 3000);
+      
+
       } catch (error) {
         // Handle the case where the MediaRecorder fails to start
-        console.error('Error starting MediaRecorder:', error);
-        alert("Failed to start recording. Please ensure your webcam and microphone are accessible and then reload the application.");
+        alert("Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure they are working and accessible, then reload the application.");
         setIsRecording(false); // Reset the recording state
         setIsCountdownActive(false); // Stop the countdown if it was running
       }
-    }, 3000);
+    
   }
 
   function stopRecording() {
