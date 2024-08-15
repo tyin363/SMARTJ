@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "question": "What is the time complexity of binary search?"
+  },
+  {
+    "id": 2,
+    "question": "Explain the difference between a stack and a queue."
+  },
+  {
+    "id": 3,
+    "question": "What is polymorphism in object-oriented programming?"
+  },
+  {
+    "id": 4,
+    "question": "What are the main differences between SQL and NoSQL databases?"
+  },
+  {
+    "id": 5,
+    "question": "Can you explain the concept of inheritance in object-oriented programming?"
+  },
+  {
+    "id": 6,
+    "question": "What is the purpose of a hash function in data structures?"
+  },
+  {
+    "id": 7,
+    "question": "How does a binary tree differ from a binary search tree?"
+  },
+  {
+    "id": 8,
+    "question": "What is the difference between synchronous and asynchronous programming?"
+  },
+  {
+    "id": 9,
+    "question": "Explain the principles of RESTful web services."
+  },
+  {
+    "id": 10,
+    "question": "What is a deadlock in operating systems, and how can it be prevented?"
+  },
+  {
+    "id": 11,
+    "question": "Describe the process of normalization in database design."
+  },
+  {
+    "id": 12,
+    "question": "What are the key differences between a relational database and a document-oriented database?"
+  },
+  {
+    "id": 13,
+    "question": "Can you explain the concept of a race condition and how to handle it?"
+  },
+  {
+    "id": 14,
+    "question": "What is the purpose of a design pattern, and can you provide an example?"
+  },
+  {
+    "id": 15,
+    "question": "How does a garbage collector work in Java?"
+  },
+  {
+    "id": 16,
+    "question": "Explain the differences between HTTP and HTTPS."
+  },
+  {
+    "id": 17,
+    "question": "What are some common performance optimization techniques for databases?"
+  },
+  {
+    "id": 18,
+    "question": "Can you describe the use of the Model-View-Controller (MVC) design pattern?"
+  },
+  {
+    "id": 19,
+    "question": "What are microservices, and how do they differ from a monolithic architecture?"
+  },
+  {
+    "id": 20,
+    "question": "Explain how an index improves the performance of a database query."
+  }
+]

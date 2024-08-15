@@ -20,7 +20,7 @@ function Home() {
         <div className="col-md-6">
           <div className="card mb-4 shadow-sm">
             <Link
-              to="/interview-practice"
+              to="/interview-settings"
               className="text-decoration-none text-dark d-block"
             >
               <img
