@@ -61,6 +61,24 @@ function InterviewPractice() {
         setRemainingTime(prevTime => {
           const newTime = prevTime - 1;
           updateTimer(newTime);
+          
+          try {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+              .then(() => {
+                // Devices are accessible
+                console.log('Microphone and camera are accessible.');
+              })
+              .catch(error => {
+                // Handle the error if devices are not accessible
+                console.error('Microphone or camera not accessible:', error);
+                alert('Recording failed.\nPlease ensure both the microphone and camera are working and reload the application.');
+                clearInterval(recordingTimer.current);
+                stopRecording();
+                setAreCameraAndMicAvailable(false);
+              });
+          }
+          catch{}
+
           return newTime;
         });
       }, 1000); 
