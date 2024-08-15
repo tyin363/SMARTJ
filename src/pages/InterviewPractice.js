@@ -65,7 +65,8 @@ function InterviewPractice() {
     setTimerText(count > 0 ? count : "Time's Up");
 
     if (count <= 0) {
-      stopRecording();
+      setTimeout(()=>{
+      stopRecording();},100);
     }
   };
 
@@ -158,7 +159,12 @@ function InterviewPractice() {
             </div>
           )}
 
-          {videoURL && isReplay && <video src={videoURL} controls />}
+
+          {videoURL && isReplay && (
+            <video src={videoURL} controls   onPlay={(e) => {
+              console.log(`Video length: ${e.target.duration} seconds`);
+            }}/>
+          )}
         </div>
       </div>
 
