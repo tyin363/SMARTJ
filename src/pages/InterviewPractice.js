@@ -14,6 +14,7 @@ function InterviewPractice() {
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [videoURL, setVideoURL] = useState(null);
+  const [areCameraAndMicAvailable, setAreCameraAndMicAvailable] = useState(false);
   const timeLimit = 20;
   const [timerText, setTimerText] = useState(timeLimit);
   const [remainingTime, setRemainingTime] = useState(timeLimit);
@@ -28,13 +29,20 @@ function InterviewPractice() {
   const questionType = queryParams.get("questionType") || "Behavioural";
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        streamRef.current = stream;
-        videoRef.current.srcObject = stream;
+    // Access the webcam and set up the preview
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then(stream => {
+        streamRef.current = stream; // Save the stream reference
+        videoRef.current.srcObject = stream; // Set the video element's source to the stream
+        setAreCameraAndMicAvailable(true);
+        
       })
-      .catch((error) => console.error("Error accessing webcam:", error));
+      .catch(error => {
+       alert("Your webcam and microphone must be accessible to continue.\nReload the application once they are both accessible and ensure they remain accessible while recording.");
+        console.error('Error accessing webcam or microphone', error);
+        setAreCameraAndMicAvailable(false);
+        // You can add additional error handling logic here, such as displaying a message to the user
+      });
 
     return () => {
       if (streamRef.current) {
@@ -43,6 +51,9 @@ function InterviewPractice() {
       }
     };
   }, []);
+  
+
+
 
   useEffect(() => {
     if (isRecording) {
@@ -50,6 +61,24 @@ function InterviewPractice() {
         setRemainingTime((prevTime) => {
           const newTime = prevTime - 1;
           updateTimer(newTime);
+          
+          try {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+              .then(() => {
+                // Devices are accessible
+                console.log('Microphone and camera are accessible.');
+              })
+              .catch(error => {
+                // Handle the error if devices are not accessible
+                console.error('Microphone or camera not accessible:', error);
+                alert('Recording failed.\nPlease ensure both the microphone and camera are working and reload the application.');
+                clearInterval(recordingTimer.current);
+                stopRecording();
+                setAreCameraAndMicAvailable(false);
+              });
+          }
+          catch{}
+
           return newTime;
         });
       }, 1000);
@@ -60,6 +89,7 @@ function InterviewPractice() {
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]);
 
+  // CHANGED: Updated to use the count parameter
   const updateTimer = (count) => {
     setTimerTextColor(count < 11 ? "red" : "black");
     setTimerText(count > 0 ? count : "Time's Up");
@@ -75,19 +105,40 @@ function InterviewPractice() {
     setIsCountdownActive(true);
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
-    setTimerTextColor("black");
-
-    const countdown = setTimeout(() => {
-      setIsRecording(true);
+    const countdown=setTimeout(() => {
+      setIsRecording(true); 
       setRecordedChunks([]);
-
-      mediaRecorderRef.current = new MediaRecorder(streamRef.current);
-      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-
-      mediaRecorderRef.current.start();
-      setIsCountdownActive(false);
+      try {
+        // Attempt to create a MediaRecorder with the stream
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(stream => {
+         
+        })
+        .catch(error => {
+          // This is where the error is caught if getUserMedia fails
+          alert(`Failed to access microphone or webcam.`);
+        });
+      
+        mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+        mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+  
+        mediaRecorderRef.current.start();
+        
+      
+        setIsCountdownActive(false);
+      
+       
+      } catch (error) {
+        // Handle the case where the MediaRecorder fails to start
+        alert("Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure both are working and accessible, then reload the application.");
+        setIsRecording(false); // Reset the recording state
+        setIsCountdownActive(false); // Stop the countdown if it was running
+      }
     }, 3000);
   }
+
+   
+    
 
   function stopRecording() {
     if (mediaRecorderRef.current) {
@@ -168,11 +219,9 @@ function InterviewPractice() {
         </div>
       </div>
 
-      <div className="button-container">
-        {!isRecording && !isCountdownActive && (
-          <button onClick={startRecording} className="btn btn-primary">
-            Start New Recording
-          </button>
+      <div className='button-container'>
+        {!isRecording && !isCountdownActive && areCameraAndMicAvailable && areCameraAndMicAvailable &&  (
+          <button onClick={startRecording}  className="btn btn-primary">Start New Recording</button>
         )}
 
         <button
