@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "../InterviewSettings.css"; // Import the CSS file
+import TextAnswerPage from "./TextAnswerPage";
+import InterviewPractice from "./InterviewPractice";
 
 function InterviewSettings() {
   const [numQuestions, setNumQuestions] = useState(3); // Default number of questions
@@ -8,6 +15,8 @@ function InterviewSettings() {
   const [readingTime, setReadingTime] = useState(40); // Default reading time in seconds
   const [answerTime, setAnswerTime] = useState(120); // Default answer time in seconds
   const [answerType, setAnswerType] = useState("Text"); // Default answer type
+
+  const navigate = useNavigate();
 
   const questionTypes = ["Technical", "Behavioural"];
   const answerTypes = ["Text", "Voice", "Video"];
@@ -22,6 +31,24 @@ function InterviewSettings() {
     setter(types[nextIndex]);
   };
 
+  const startInterview = () => {
+    if (answerType === "Text") {
+      navigate("/text-answer", {
+        state: { timeLimit: answerTime },
+      });
+    } else {
+      navigate("/interview-practice", {
+        state: {
+          questionType,
+          numQuestions,
+          readingTime,
+          answerTime,
+          answerType,
+        },
+      });
+    }
+  };
+
   return (
     <div className="container text-center mt-5">
       <h1 className="display-4">Interview Settings</h1>
@@ -32,6 +59,7 @@ function InterviewSettings() {
           <h4>Number of Questions: {numQuestions}</h4>
           <button
             onClick={() => handleArrowClick(setNumQuestions, numQuestions, -1)}
+            disabled={numQuestions <= 1}
           >
             &lt;
           </button>
@@ -110,19 +138,15 @@ function InterviewSettings() {
           </button>
         </div>
 
-        <button className="btn btn-primary mt-4">
-          <Link
-            className="nav-link"
-            to={`/interview-practice?questionType=${encodeURIComponent(
-              questionType
-            )}&numQuestions=${numQuestions}&readingTime=${readingTime}&answerTime=${answerTime}&answerType=${encodeURIComponent(
-              answerType
-            )}`}
-          >
-            Start Interview
-          </Link>
+        <button className="btn btn-primary mt-4" onClick={startInterview}>
+          Start Interview
         </button>
       </div>
+
+      <Routes>
+        <Route path="/text-answer" element={<TextAnswerPage />} />
+        <Route path="/interview-practice" element={<InterviewPractice />} />
+      </Routes>
     </div>
   );
 }

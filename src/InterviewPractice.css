@@ -1,51 +1,58 @@
-
 .container {
-    text-align: center;
-    margin-top: 5rem;
-  }
-  
-  .display-4 {
-    font-size: 2.5rem;
-  }
-  
-  .lead {
-    font-size: 1.25rem;
-  }
-  
-  .timer-text h2 {
-    color: black;
-  }
-  
-  .video-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .video-container video {
-    width: 100%;
-  }
-  
-  .overlay-text {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: red;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 30px;
-  }
-  .button-container{
-    min-height: 60px;
-  }
-  .btn {
-    margin: 10px;
-  }
-  
- .timer-text{
-  min-height:40px;
- }
+  text-align: center;
+  margin-top: 5rem;
+}
 
-  
+.display-4 {
+  font-size: 2.5rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+}
+
+.timer-text h2 {
+  color: black;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.video-container video {
+  width: 100%;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 350px;
+  left: 707px;
+  color: red;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 30px;
+}
+.button-container {
+  min-height: 60px;
+}
+.btn {
+  margin: 10px;
+}
+
+.timer-text {
+  min-height: 40px;
+}
+/* Style for the textarea */
+.form-control {
+  flex-grow: 1; /* Allow the text area to grow and take available space */
+}
+.text-input-container {
+  display: flex; /* Align children side by side */
+  align-items: flex-start; /* Align items at the start */
+  gap: 1rem; /* Space between the countdown and the text area */
+  margin-top: 2rem; /* Space between the title and this section */
+}
