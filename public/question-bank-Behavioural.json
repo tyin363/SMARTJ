@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "question": "Can you describe a challenging project you worked on?"
+  },
+  {
+    "id": 2,
+    "question": "How do you handle conflicts in a team setting?"
+  },
+  {
+    "id": 3,
+    "question": "What motivates you in your work?"
+  },
+  {
+    "id": 4,
+    "question": "Can you describe a time when you had to learn a new skill or technology quickly?"
+  },
+  {
+    "id": 5,
+    "question": "Tell me about a situation where you had to manage multiple priorities. How did you handle it?"
+  },
+  {
+    "id": 6,
+    "question": "Describe an instance where you received constructive criticism. How did you respond?"
+  },
+  {
+    "id": 7,
+    "question": "Can you give an example of how you worked effectively under pressure?"
+  },
+  {
+    "id": 8,
+    "question": "Have you ever had to make a difficult decision with limited information? What was the outcome?"
+  },
+  {
+    "id": 9,
+    "question": "Describe a time when you went above and beyond your job responsibilities to achieve a goal."
+  },
+  {
+    "id": 10,
+    "question": "Can you share an experience where you had to collaborate with someone from a different department or team? How did you ensure success?"
+  },
+  {
+    "id": 11,
+    "question": "Tell me about a time when you had to adapt to a significant change in your work environment or role."
+  },
+  {
+    "id": 12,
+    "question": "Can you describe a project or task where you faced significant obstacles? How did you overcome them?"
+  },
+  {
+    "id": 13,
+    "question": "Share an example of a time when you had to work with a difficult team member. How did you handle it?"
+  },
+  {
+    "id": 14,
+    "question": "Can you provide an example of how you handled a situation where you had to meet a tight deadline?"
+  },
+  {
+    "id": 15,
+    "question": "Describe a time when you had to give a presentation or report to a group. How did you prepare?"
+  },
+  {
+    "id": 16,
+    "question": "Have you ever worked on a project that didn't go as planned? What did you learn from the experience?"
+  },
+  {
+    "id": 17,
+    "question": "Tell me about a time when you successfully led a team or project. What strategies did you use?"
+  },
+  {
+    "id": 18,
+    "question": "Describe a situation where you had to make a decision that was unpopular but necessary. How did you handle it?"
+  },
+  {
+    "id": 19,
+    "question": "Can you share an example of how you used your problem-solving skills to resolve a challenging issue?"
+  },
+  {
+    "id": 20,
+    "question": "Tell me about a time when you had to manage a conflict between team members. What was your approach?"
+  }
+]
