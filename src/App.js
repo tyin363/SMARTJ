@@ -10,7 +10,6 @@ import ContactUs from "./pages/ContactUs";
 import MyProfile from "./pages/MyProfile";
 import InterviewPractice from "./pages/InterviewPractice";
 import InterviewSettings from "./pages/InterviewSettings";
-import TextAnswerPage from "./pages/TextAnswerPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import SummaryPage from "./pages/SummaryPage";
 
@@ -78,7 +77,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/interview-settings" element={<InterviewSettings />} />
           <Route path="/interview-practice" element={<InterviewPractice />} />
-          <Route path="/text-answer" element={<TextAnswerPage />} />
           <Route path="/job-finder" element={<JobFinder />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/my-profile" element={<MyProfile />} />

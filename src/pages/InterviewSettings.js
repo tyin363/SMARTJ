@@ -1,52 +1,29 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
-import "../InterviewSettings.css"; // Import the CSS file
-import TextAnswerPage from "./TextAnswerPage";
-import InterviewPractice from "./InterviewPractice";
+import { Link } from "react-router-dom";
+import "../InterviewSettings.css";
 
 function InterviewSettings() {
-  const [numQuestions, setNumQuestions] = useState(3); // Default number of questions
-  const [questionType, setQuestionType] = useState("Behavioural"); // Default question type
-  const [readingTime, setReadingTime] = useState(40); // Default reading time in seconds
-  const [answerTime, setAnswerTime] = useState(120); // Default answer time in seconds
-  const [answerType, setAnswerType] = useState("Text"); // Default answer type
-
-  const navigate = useNavigate();
-
+  // Default number of questions
+  const [numQuestions, setNumQuestions] = useState(3); 
+  // Default question type
+  const [questionType, setQuestionType] = useState("Behavioural"); 
+  const [readingTime, setReadingTime] = useState(40); 
+  // Default answer time in seconds
+  const [answerTime, setAnswerTime] = useState(120); 
+  // Default answer type
+  const [answerType, setAnswerType] = useState("Text"); 
   const questionTypes = ["Technical", "Behavioural"];
   const answerTypes = ["Text", "Voice", "Video"];
 
   const handleArrowClick = (setter, value, delta) => {
-    setter(Math.max(1, value + delta)); // Ensure values don't go below 1
+    // Ensure values don't go below 1
+    setter(Math.max(1, value + delta)); 
   };
 
   const handleTypeChange = (currentType, types, setter, delta) => {
     const currentIndex = types.indexOf(currentType);
     const nextIndex = (currentIndex + delta + types.length) % types.length;
     setter(types[nextIndex]);
-  };
-
-  const startInterview = () => {
-    if (answerType === "Text") {
-      navigate("/text-answer", {
-        state: { timeLimit: answerTime },
-      });
-    } else {
-      navigate("/interview-practice", {
-        state: {
-          questionType,
-          numQuestions,
-          readingTime,
-          answerTime,
-          answerType,
-        },
-      });
-    }
   };
 
   return (
@@ -59,7 +36,6 @@ function InterviewSettings() {
           <h4>Number of Questions: {numQuestions}</h4>
           <button
             onClick={() => handleArrowClick(setNumQuestions, numQuestions, -1)}
-            disabled={numQuestions <= 1}
           >
             &lt;
           </button>
@@ -138,15 +114,19 @@ function InterviewSettings() {
           </button>
         </div>
 
-        <button className="btn btn-primary mt-4" onClick={startInterview}>
-          Start Interview
+        <button className="btn btn-primary mt-4">
+          <Link
+            className="nav-link"
+            to={`/interview-practice?questionType=${encodeURIComponent(
+              questionType
+            )}&numQuestions=${numQuestions}&readingTime=${readingTime}&answerTime=${answerTime}&answerType=${encodeURIComponent(
+              answerType
+            )}`}
+          >
+            Start Interview
+          </Link>
         </button>
       </div>
-
-      <Routes>
-        <Route path="/text-answer" element={<TextAnswerPage />} />
-        <Route path="/interview-practice" element={<InterviewPractice />} />
-      </Routes>
     </div>
   );
 }
