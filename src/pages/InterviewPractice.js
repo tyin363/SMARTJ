@@ -54,12 +54,6 @@ function InterviewPractice() {
 
   return (
     <div className="container text-center mt-5">
-      <h1 className="display-4">Interview Practice</h1>
-      <p className="lead">
-        Prepare for your interviews with our customizable practice questions and
-        recording features.
-      </p>
-
       {/* Render QuestionComponent with a unique key */}
       <QuestionComponent
         key={`${questionType}-${count}`} // Unique key to force re-render

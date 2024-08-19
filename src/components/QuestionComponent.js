@@ -24,8 +24,8 @@ const QuestionComponent = ({ questionType }) => {
   return (
     <div className="question-container">
       <div className="question">
-        <h2>Interview Question:</h2>
-        <p>{question}</p>
+        <h1>Interview Question:</h1>
+        <h2>{question}</h2>
       </div>
       <div className="answer">
         {/* Render the answer part based on settings */}
