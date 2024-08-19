@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+/* Center the nav links when the menu is collapsed */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    text-align: center;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+}
