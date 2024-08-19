@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css"; // Import global styles
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import "jquery";
+import "./index.css";
 
 import Home from "./pages/Home";
 import JobFinder from "./pages/JobFinder";
@@ -31,8 +33,8 @@ function App() {
           <button
             className="navbar-toggler"
             type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
+            data-bs-toggle="collapse" // Updated attribute to `data-bs-toggle`
+            data-bs-target="#navbarNav" // Updated attribute to `data-bs-target`
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
@@ -47,7 +49,6 @@ function App() {
                   Home
                 </Link>
               </li>
-              {/* Interview Settings/Practice link */}
               <li className="nav-item">
                 <Link className="nav-link" to="/interview-settings">
                   Interview Practice
@@ -72,7 +73,6 @@ function App() {
           </div>
         </nav>
 
-        {/* Routes to switch between different pages based on the URL path */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/interview-settings" element={<InterviewSettings />} />
@@ -84,61 +84,57 @@ function App() {
         </Routes>
       </div>
 
-      {/* Footer section at the bottom of the page */}
       <footer
         className="text-center text-white mt-auto"
         style={{ backgroundColor: "#67a9d2" }}
       >
-        <div class="container p-4 pb-0">
-          <section class="mb-4">
+        <div className="container p-4 pb-0">
+          <section className="mb-4">
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-facebook-f"></i>
+              <i className="fab fa-facebook-f"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-twitter"></i>
+              <i className="fab fa-twitter"></i>
             </a>
-
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-google"></i>
+              <i className="fab fa-google"></i>
             </a>
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-instagram"></i>
+              <i className="fab fa-instagram"></i>
             </a>
-
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="#!"
               role="button"
             >
-              <i class="fab fa-linkedin-in"></i>
+              <i className="fab fa-linkedin-in"></i>
             </a>
-
             <a
-              class="btn btn-outline-light btn-floating m-1"
+              className="btn btn-outline-light btn-floating m-1"
               href="https://github.com/SOFTENG310-Team4/SMARTJ"
               role="button"
             >
-              <i class="fab fa-github"></i>
+              <i className="fab fa-github"></i>
             </a>
           </section>
         </div>
-        {/* Copyright information */}
+
         <div
           className="text-center p-3"
           style={{
@@ -148,7 +144,7 @@ function App() {
         >
           © 2024 Copyright:
           <a
-            class="text-black"
+            className="text-black"
             href="https://github.com/SOFTENG310-Team4/SMARTJ/"
           >
             SMARTJ.co.nz
