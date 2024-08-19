@@ -13,7 +13,7 @@ function InterviewSettings() {
   // Default answer type
   const [answerType, setAnswerType] = useState("Text"); 
   const questionTypes = ["Technical", "Behavioural"];
-  const answerTypes = ["Text", "Voice", "Video"];
+  const answerTypes = ["Text", "Video"];
 
   const handleArrowClick = (setter, value, delta) => {
     // Ensure values don't go below 1

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Countdown from "react-countdown";
 
 const VideoRecordingComponent = ({
+  readingTime,
   timeLimit,
   setRecordedChunks,
   recordedChunks,
@@ -13,6 +14,7 @@ const VideoRecordingComponent = ({
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const [videoURL, setVideoURL] = useState(null);
   const [remainingTime, setRemainingTime] = useState(timeLimit);
+  const countdownStartTime = useRef(Date.now() + readingTime * 1000);
   const [areCameraAndMicAvailable, setAreCameraAndMicAvailable] =
     useState(false);
   const [timerText, setTimerText] = useState(timeLimit);
@@ -80,6 +82,18 @@ const VideoRecordingComponent = ({
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]);
 
+    // Effect to handle readingTime countdown
+    useEffect(() => {
+      setIsCountdownActive(true);
+      const readingTimer = setTimeout(() => {
+        setIsCountdownActive(false);
+        startRecording(); 
+      }, 0);
+  
+      return () => clearTimeout(readingTimer);
+    }, [readingTime]);
+
+    
   const updateTimer = (count) => {
     setTimerTextColor(count < 11 ? "red" : "black");
     setTimerText(count > 0 ? count : "Time's Up");
@@ -121,7 +135,7 @@ const VideoRecordingComponent = ({
         setIsRecording(false);
         setIsCountdownActive(false);
       }
-    }, 3000);
+    }, readingTime * 1000);
   }
 
   function stopRecording() {
@@ -143,13 +157,19 @@ const VideoRecordingComponent = ({
     setIsReplay(true);
   }
 
-  function countdownTimer({ seconds, completed }) {
+  // Renderer for the countdown
+  const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
-      return <span>Go!</span>;
+      return <span>Start Answering!</span>;
     } else {
-      return <span>{seconds}</span>;
+      // Display minutes and seconds properly
+      return (
+        <span>
+          {minutes > 0 ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` : seconds}
+        </span>
+      );
     }
-  }
+  };
 
   return (
     <div>
@@ -168,7 +188,7 @@ const VideoRecordingComponent = ({
         />
         {isCountdownActive && (
           <div className="overlay-text">
-            <Countdown date={Date.now() + 3000} renderer={countdownTimer} />
+            <Countdown date={Date.now() + readingTime * 1000} renderer={countdownTimer} />
           </div>
         )}
         {videoURL && isReplay && (
@@ -177,12 +197,6 @@ const VideoRecordingComponent = ({
       </div>
 
       <div className="button-container">
-        {!isRecording && !isCountdownActive && areCameraAndMicAvailable && (
-          <button onClick={startRecording} className="btn btn-primary">
-            Start New Recording
-          </button>
-        )}
-
         <button
           onClick={stopRecording}
           style={{
@@ -203,9 +217,6 @@ const VideoRecordingComponent = ({
                 className="btn btn-primary me-2"
               >
                 Replay Recording
-              </button>
-              <button onClick={goToSummary} className="btn btn-success">
-                Next
               </button>
             </>
           )}
