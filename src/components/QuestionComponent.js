@@ -1,4 +1,3 @@
-// src/components/QuestionComponent.js
 import React, { useState, useEffect } from "react";
 
 const fetchQuestions = async (type) => {
@@ -13,8 +12,10 @@ const QuestionComponent = ({ questionType }) => {
   useEffect(() => {
     const getRandomQuestion = async () => {
       const questions = await fetchQuestions(questionType);
-      const randomIndex = Math.floor(Math.random() * questions.length);
-      setQuestion(questions[randomIndex].question);
+      if (questions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        setQuestion(questions[randomIndex].question);
+      }
     };
 
     getRandomQuestion();
