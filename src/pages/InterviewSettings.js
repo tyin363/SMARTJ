@@ -4,20 +4,20 @@ import "../InterviewSettings.css";
 
 function InterviewSettings() {
   // Default number of questions
-  const [numQuestions, setNumQuestions] = useState(3); 
+  const [numQuestions, setNumQuestions] = useState(3);
   // Default question type
-  const [questionType, setQuestionType] = useState("Behavioural"); 
-  const [readingTime, setReadingTime] = useState(40); 
+  const [questionType, setQuestionType] = useState("Behavioural");
+  const [readingTime, setReadingTime] = useState(40);
   // Default answer time in seconds
-  const [answerTime, setAnswerTime] = useState(120); 
+  const [answerTime, setAnswerTime] = useState(120);
   // Default answer type
-  const [answerType, setAnswerType] = useState("Text"); 
+  const [answerType, setAnswerType] = useState("Text");
   const questionTypes = ["Technical", "Behavioural"];
   const answerTypes = ["Text", "Video"];
 
   const handleArrowClick = (setter, value, delta) => {
     // Ensure values don't go below 1
-    setter(Math.max(1, value + delta)); 
+    setter(Math.max(1, value + delta));
   };
 
   const handleTypeChange = (currentType, types, setter, delta) => {
@@ -36,6 +36,7 @@ function InterviewSettings() {
           <h4>Number of Questions: {numQuestions}</h4>
           <button
             onClick={() => handleArrowClick(setNumQuestions, numQuestions, -1)}
+            disabled={numQuestions <= 1} // Disable if <= 1
           >
             &lt;
           </button>
@@ -70,6 +71,7 @@ function InterviewSettings() {
           <h4>Reading Time: {readingTime} seconds</h4>
           <button
             onClick={() => handleArrowClick(setReadingTime, readingTime, -10)}
+            disabled={readingTime <= 10} // Disable if <= 10
           >
             &lt;
           </button>
@@ -85,6 +87,7 @@ function InterviewSettings() {
           <h4>Answer Time: {answerTime} seconds</h4>
           <button
             onClick={() => handleArrowClick(setAnswerTime, answerTime, -10)}
+            disabled={answerTime <= 10} // Disable if <= 10
           >
             &lt;
           </button>
