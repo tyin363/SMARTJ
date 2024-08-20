@@ -54,42 +54,76 @@ function InterviewPractice() {
 
   return (
     <div className="container text-center mt-5">
-      {/* Render QuestionComponent with a unique key */}
-      <QuestionComponent
-        key={`${questionType}-${count}`} // Unique key to force re-render
-        questionType={questionType}
-      />
+      <div className="row justify-content-center">
+        {/* Left side: Interview Question */}
+        <div
+          className="col-md-5 d-flex flex-column justify-content-center align-items-center p-4"
+          style={{
+            borderRadius: "10px",
+            minHeight: "400px",
+            backgroundColor: "#f8f9fa", // Light background
+            border: "2px solid black", // Full border declaration
+          }}
+        >
+          <div className="question-section text-center">
+            <QuestionComponent
+              key={`${questionType}-${count}`} // Unique key to force re-render
+              questionType={questionType}
+            />
+          </div>
+          <div className="button-container mt-4">
+            {count < numQuestions - 1 ? (
+              <button
+                style={{
+                  border: "2px solid black", // Full border for button
+                }}
+                onClick={increment}
+                className="btn btn-primary"
+              >
+                Next Question
+              </button>
+            ) : (
+              <button
+                style={{
+                  border: "2px solid black", // Full border for button
+                }}
+                onClick={goToSummary}
+                className="btn btn-success"
+              >
+                Finish
+              </button>
+            )}
+          </div>
+        </div>
 
-      {/* Conditionally render the TextAnswerComponent or VideoRecordingComponent */}
-      {answerType === "Text" ? (
-        <TextAnswerComponent
-          key={`text-${count}`} // Unique key to force re-render
-          readingTime={readingTime}
-          timeLimit={timeLimit}
-          onSubmit={handleTextSubmit}
-          goToSummary={goToSummary}
-        />
-      ) : (
-        <VideoRecordingComponent
-          key={`video-${count}`} // Unique key to force re-render
-          readingTime={readingTime}
-          timeLimit={timeLimit}
-          setRecordedChunks={setRecordedChunks}
-          recordedChunks={recordedChunks}
-          goToSummary={goToSummary}
-        />
-      )}
-
-      <div className="button-container mt-4">
-        {count < numQuestions - 1 ? (
-          <button onClick={increment} className="btn btn-primary">
-            Next Question
-          </button>
-        ) : (
-          <button onClick={goToSummary} className="btn btn-success">
-            Finish
-          </button>
-        )}
+        {/* Right side: Answer Type (Text or Video) */}
+        <div
+          className="col-md-5 p-4 ml-2"
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "#ebecf0",
+            border: "2px solid black", // Full border declaration for the right side
+          }}
+        >
+          {answerType === "Text" ? (
+            <TextAnswerComponent
+              key={`text-${count}`} // Unique key to force re-render
+              readingTime={readingTime}
+              timeLimit={timeLimit}
+              onSubmit={handleTextSubmit}
+              goToSummary={goToSummary}
+            />
+          ) : (
+            <VideoRecordingComponent
+              key={`video-${count}`} // Unique key to force re-render
+              readingTime={readingTime}
+              timeLimit={timeLimit}
+              setRecordedChunks={setRecordedChunks}
+              recordedChunks={recordedChunks}
+              goToSummary={goToSummary}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

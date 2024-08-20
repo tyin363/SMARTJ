@@ -24,7 +24,6 @@ const QuestionComponent = ({ questionType }) => {
   return (
     <div className="question-container">
       <div className="question">
-        <h1>Interview Question:</h1>
         <h2>{question}</h2>
       </div>
       <div className="answer">

@@ -100,7 +100,7 @@ const VideoRecordingComponent = ({
 
   function startRecording() {
     setIsReplay(false);
-    setIsCountdownActive(false);
+    setIsCountdownActive(false); // Hide reading time once recording starts
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
 
@@ -153,7 +153,7 @@ const VideoRecordingComponent = ({
     } else {
       // Display minutes and seconds properly
       return (
-        <span>
+        <span style={{ fontSize: "20px", color: "red", backgroundColor: "#555", padding: "6px", borderRadius: "8px", display: "inline-block", width: "40px", textAlign: "center" }}>
           {minutes > 0
             ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
             : seconds}
@@ -164,10 +164,37 @@ const VideoRecordingComponent = ({
 
   return (
     <div>
+      {!isRecording && isCountdownActive && ( // Show only if countdown is active
+        <div className="reading-time-container" style={{ fontSize: "18px" }}>
+          {isCountdownActive && (
+            <Countdown
+              date={Date.now() + readingTime * 1000}
+              renderer={countdownTimer}
+            />
+          )}
+          {isCountdownActive && (
+            <button
+              onClick={() => {
+                setIsCountdownActive(false);
+                startRecording();
+              }}
+              className="btn btn-primary"
+              style={{
+                backgroundColor: "#ffcccc", // Light red color
+                borderColor: "black",
+                color: "black",
+              }}
+            >
+              Skip Reading Time
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="timer-text">
-        <h2 style={{ color, display: isReplay ? "none" : "inline" }}>
-          {timerText}
-        </h2>
+        <h5 style={{ color, display: isReplay ? "none" : "inline" }}>
+          Answer Time: {timerText}
+        </h5>
       </div>
 
       <div className="video-container">
@@ -177,14 +204,6 @@ const VideoRecordingComponent = ({
           muted
           style={{ display: isReplay ? "none" : "inline" }}
         />
-        {isCountdownActive && (
-          <div className="overlay-text">
-            <Countdown
-              date={Date.now() + readingTime * 1000}
-              renderer={countdownTimer}
-            />
-          </div>
-        )}
         {videoURL && isReplay && <video src={videoURL} controls />}
       </div>
 
@@ -192,7 +211,7 @@ const VideoRecordingComponent = ({
         <button
           onClick={stopRecording}
           style={{
-            display: isRecording && !isCountdownActive ? "inline" : "none",
+            display: isRecording && !isCountdownActive ? "inline" : "none", borderColor: "black"
           }}
           className="btn btn-primary"
         >
@@ -204,26 +223,11 @@ const VideoRecordingComponent = ({
           !isReplay &&
           !isCountdownActive && (
             <>
-              <button
-                onClick={replayRecording}
-                className="btn btn-primary me-2"
-              >
+              <button style={{borderColor: "black"}} onClick={replayRecording}className="btn btn-primary me-2">
                 Replay Recording
               </button>
             </>
           )}
-        {isCountdownActive && (
-          <button
-            onClick={() => {
-              setIsCountdownActive(false);
-              startRecording();
-            }}
-            className="btn btn-primary"
-            style={{ marginLeft: "20px" }}
-          >
-            Skip Reading Time
-          </button>
-        )}
       </div>
     </div>
   );

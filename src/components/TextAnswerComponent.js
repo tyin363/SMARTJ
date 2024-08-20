@@ -16,7 +16,6 @@ const TextAnswerComponent = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const countdownStartTime = useRef(Date.now() + readingTime * 1000);
-  const timeLimitStartTime = useRef(null);
   const recordingTimer = useRef(null);
 
   // Timer for typing (main answer timer)
@@ -49,7 +48,6 @@ const TextAnswerComponent = ({
   // Automatically start the time limit timer after reading time
   const startAnswering = () => {
     setIsCountdownActive(false);
-    timeLimitStartTime.current = Date.now() + timeLimit * 1000;
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
     setIsTyping(true);
@@ -59,7 +57,6 @@ const TextAnswerComponent = ({
   // Automatically start the countdown when the component mounts
   useEffect(() => {
     setIsCountdownActive(true);
-    countdownStartTime.current = Date.now() + readingTime * 1000;
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
       startAnswering();
@@ -82,7 +79,6 @@ const TextAnswerComponent = ({
     setIsSubmitted(false);
     setIsCountdownActive(true);
 
-    countdownStartTime.current = Date.now() + readingTime * 1000;
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
       startAnswering();
@@ -93,10 +89,22 @@ const TextAnswerComponent = ({
 
   const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
+      startAnswering();
       return <span>Start Answering!</span>;
     } else {
       return (
-        <span>
+        <span
+          style={{
+            fontSize: "20px",
+            color: "red",
+            backgroundColor: "#555",
+            padding: "6px",
+            borderRadius: "8px",
+            display: "inline-block",
+            width: "40px",
+            textAlign: "center",
+          }}
+        >
           {minutes > 0
             ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
             : seconds}
@@ -107,57 +115,52 @@ const TextAnswerComponent = ({
 
   return (
     <div>
+      {!isTyping && isCountdownActive && (
+        <div className="reading-time-container" style={{ fontSize: "18px" }}>
+          {isCountdownActive && (
+            <Countdown
+              date={Date.now() + readingTime * 1000}
+              renderer={countdownTimer}
+            />
+          )}
+          {isCountdownActive && (
+            <button
+              onClick={startAnswering}
+              className="btn"
+              style={{
+                backgroundColor: "#ffcccc",
+                borderColor: "black",
+                color: "black",
+              }}
+            >
+              Skip Reading Time
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="timer-text">
-        <h2 style={{ color }}>{timerText}</h2>
+        <h5 style={{ color }}>Answer Time: {timerText}</h5>
       </div>
 
       <div className="text-input-container">
-        {isCountdownActive && (
-          <div
-            className="overlay-text"
-            style={{
-              marginLeft: "130px",
-              marginTop: "50px",
-            }}
-          >
-            <Countdown
-              date={countdownStartTime.current}
-              renderer={countdownTimer}
-            />
-          </div>
-        )}
-
         {!isCountdownActive && (
           <textarea
             className="form-control"
             rows="10"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            disabled={
-              !isTyping ||
-              remainingTime <= 0 ||
-              isCountdownActive ||
-              isSubmitted
-            }
+            disabled={!isTyping || remainingTime <= 0 || isSubmitted}
             placeholder="Start typing your answer here..."
           />
         )}
       </div>
 
       <div className="button-container mt-4">
-        {isCountdownActive && (
-          <button onClick={startAnswering} className="btn btn-primary me-2">
-            Skip Reading
+        {!isCountdownActive && !isSubmitted && remainingTime > 0 && (
+          <button style={{borderColor: "black"}} onClick={submitAnswer} className="btn btn-success me-2 ">
+            Submit Answer
           </button>
-        )}
-        {!isCountdownActive && (
-          <>
-            {!isSubmitted && remainingTime > 0 && (
-              <button onClick={submitAnswer} className="btn btn-success me-2">
-                Submit Answer
-              </button>
-            )}
-          </>
         )}
       </div>
     </div>

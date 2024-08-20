@@ -29,19 +29,17 @@ function App() {
             />
             SMARTJ
           </Link>
-          {/* Toggle button for collapsing the navbar in smaller screens */}
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse" // Updated attribute to `data-bs-toggle`
-            data-bs-target="#navbarNav" // Updated attribute to `data-bs-target`
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          {/* Collapsible part of the navbar containing links */}
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
@@ -73,84 +71,86 @@ function App() {
           </div>
         </nav>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/interview-settings" element={<InterviewSettings />} />
-          <Route path="/interview-practice" element={<InterviewPractice />} />
-          <Route path="/job-finder" element={<JobFinder />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/summary" element={<SummaryPage />} />
-        </Routes>
-      </div>
-
-      <footer
-        className="text-center text-white mt-auto"
-        style={{ backgroundColor: "#67a9d2" }}
-      >
-        <div className="container p-4 pb-0">
-          <section className="mb-4">
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-google"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="https://github.com/SOFTENG310-Team4/SMARTJ"
-              role="button"
-            >
-              <i className="fab fa-github"></i>
-            </a>
-          </section>
+        <div className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/interview-settings" element={<InterviewSettings />} />
+            <Route path="/interview-practice" element={<InterviewPractice />} />
+            <Route path="/job-finder" element={<JobFinder />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/summary" element={<SummaryPage />} />
+          </Routes>
         </div>
 
-        <div
-          className="text-center p-3"
-          style={{
-            backgroundColor: "#c7e2fd",
-            color: "black",
-          }}
+        <footer
+          className="text-center text-white mt-auto"
+          style={{ backgroundColor: "#67a9d2" }}
         >
-          © 2024 Copyright:
-          <a
-            className="text-black"
-            href="https://github.com/SOFTENG310-Team4/SMARTJ/"
+          <div className="container p-4 pb-0">
+            <section className="mb-4">
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="#!"
+                role="button"
+              >
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="#!"
+                role="button"
+              >
+                <i className="fab fa-twitter"></i>
+              </a>
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="#!"
+                role="button"
+              >
+                <i className="fab fa-google"></i>
+              </a>
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="#!"
+                role="button"
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="#!"
+                role="button"
+              >
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                className="btn btn-outline-light btn-floating m-1"
+                href="https://github.com/SOFTENG310-Team4/SMARTJ"
+                role="button"
+              >
+                <i className="fab fa-github"></i>
+              </a>
+            </section>
+          </div>
+
+          <div
+            className="text-center p-3"
+            style={{
+              backgroundColor: "#c7e2fd",
+              color: "black",
+            }}
           >
-            SMARTJ.co.nz
-          </a>
-        </div>
-      </footer>
+            © 2024 Copyright:
+            <a
+              className="text-black"
+              href="https://github.com/SOFTENG310-Team4/SMARTJ/"
+            >
+              SMARTJ.co.nz
+            </a>
+          </div>
+        </footer>
+      </div>
     </Router>
   );
 }
