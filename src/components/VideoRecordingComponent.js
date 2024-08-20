@@ -82,18 +82,11 @@ const VideoRecordingComponent = ({
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]);
 
-    // Effect to handle readingTime countdown
-    useEffect(() => {
-      setIsCountdownActive(true);
-      const readingTimer = setTimeout(() => {
-        setIsCountdownActive(false);
-        startRecording(); 
-      }, 0);
-  
-      return () => clearTimeout(readingTimer);
-    }, [readingTime]);
+  // Effect to handle readingTime countdown
+  useEffect(() => {
+    setIsCountdownActive(true);
+  }, [readingTime]);
 
-    
   const updateTimer = (count) => {
     setTimerTextColor(count < 11 ? "red" : "black");
     setTimerText(count > 0 ? count : "Time's Up");
@@ -107,35 +100,30 @@ const VideoRecordingComponent = ({
 
   function startRecording() {
     setIsReplay(false);
-    setIsCountdownActive(true);
+    setIsCountdownActive(false);
     setRemainingTime(timeLimit);
     setTimerText(timeLimit);
 
-    setTimeout(() => {
-      setIsRecording(true);
-      setRecordedChunks([]);
+    setIsRecording(true);
+    setRecordedChunks([]);
 
-      try {
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((stream) => {
-            mediaRecorderRef.current = new MediaRecorder(stream);
-            mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-            mediaRecorderRef.current.start();
-          })
-          .catch((error) => {
-            alert(`Failed to access microphone or webcam.`);
-          });
-
-        setIsCountdownActive(false);
-      } catch (error) {
-        alert(
-          "Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure both are working and accessible, then reload the application."
-        );
-        setIsRecording(false);
-        setIsCountdownActive(false);
-      }
-    }, readingTime * 1000);
+    try {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          mediaRecorderRef.current = new MediaRecorder(stream);
+          mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+          mediaRecorderRef.current.start();
+        })
+        .catch((error) => {
+          alert(`Failed to access microphone or webcam.`);
+        });
+    } catch (error) {
+      alert(
+        "Failed to start recording.\nCould not access either the microphone, webcam or both.\nPlease ensure both are working and accessible, then reload the application."
+      );
+      setIsRecording(false);
+    }
   }
 
   function stopRecording() {
@@ -160,12 +148,15 @@ const VideoRecordingComponent = ({
   // Renderer for the countdown
   const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
+      startRecording();
       return <span>Start Answering!</span>;
     } else {
       // Display minutes and seconds properly
       return (
         <span>
-          {minutes > 0 ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` : seconds}
+          {minutes > 0
+            ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+            : seconds}
         </span>
       );
     }
@@ -188,12 +179,13 @@ const VideoRecordingComponent = ({
         />
         {isCountdownActive && (
           <div className="overlay-text">
-            <Countdown date={Date.now() + readingTime * 1000} renderer={countdownTimer} />
+            <Countdown
+              date={Date.now() + readingTime * 1000}
+              renderer={countdownTimer}
+            />
           </div>
         )}
-        {videoURL && isReplay && (
-          <video src={videoURL} controls />
-        )}
+        {videoURL && isReplay && <video src={videoURL} controls />}
       </div>
 
       <div className="button-container">
@@ -220,6 +212,18 @@ const VideoRecordingComponent = ({
               </button>
             </>
           )}
+        {isCountdownActive && (
+          <button
+            onClick={() => {
+              setIsCountdownActive(false);
+              startRecording();
+            }}
+            className="btn btn-primary"
+            style={{ marginLeft: "20px" }}
+          >
+            Skip Reading Time
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Countdown from "react-countdown";
 
-const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) => {
+const TextAnswerComponent = ({
+  readingTime,
+  timeLimit,
+  onSubmit,
+  goToSummary,
+}) => {
   const [color, setTimerTextColor] = useState("black");
   const [isCountdownActive, setIsCountdownActive] = useState(true);
   const [remainingTime, setRemainingTime] = useState(timeLimit);
@@ -9,7 +14,7 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
   const [timerText, setTimerText] = useState(timeLimit);
   const [isTyping, setIsTyping] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   const countdownStartTime = useRef(Date.now() + readingTime * 1000);
   const timeLimitStartTime = useRef(null);
   const recordingTimer = useRef(null);
@@ -57,7 +62,7 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
     countdownStartTime.current = Date.now() + readingTime * 1000;
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
-      startAnswering(); 
+      startAnswering();
     }, readingTime * 1000);
 
     return () => clearTimeout(readingTimer);
@@ -92,7 +97,9 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
     } else {
       return (
         <span>
-          {minutes > 0 ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` : seconds}
+          {minutes > 0
+            ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+            : seconds}
         </span>
       );
     }
@@ -106,8 +113,17 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
 
       <div className="text-input-container">
         {isCountdownActive && (
-          <div className="overlay-text">
-            <Countdown date={countdownStartTime.current} renderer={countdownTimer} />
+          <div
+            className="overlay-text"
+            style={{
+              marginLeft: "130px",
+              marginTop: "50px",
+            }}
+          >
+            <Countdown
+              date={countdownStartTime.current}
+              renderer={countdownTimer}
+            />
           </div>
         )}
 
@@ -117,13 +133,23 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
             rows="10"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            disabled={!isTyping || remainingTime <= 0 || isCountdownActive || isSubmitted}
+            disabled={
+              !isTyping ||
+              remainingTime <= 0 ||
+              isCountdownActive ||
+              isSubmitted
+            }
             placeholder="Start typing your answer here..."
           />
         )}
       </div>
 
       <div className="button-container mt-4">
+        {isCountdownActive && (
+          <button onClick={startAnswering} className="btn btn-primary me-2">
+            Skip Reading
+          </button>
+        )}
         {!isCountdownActive && (
           <>
             {!isSubmitted && remainingTime > 0 && (
