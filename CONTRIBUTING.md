@@ -105,7 +105,43 @@ To set up the development environment for SMARTJ:
 
 Now you're ready to start contributing to SMARTJ! If you want a more detailed overview of running the SMARTJ application, check out our [README](README.md)
 
-## Testing
+## Testing Guidelines
+
+At SMARTJ, we use Jest as our testing framework along with React Testing Library for testing React components. Following these guidelines will help ensure consistent and effective testing across our project.
+
+### Writing Tests
+
+- Navigate to the `src/__tests__`, and create a test file using the naming convention: `<filename>.test.js`
+- Tests are written using Jest framework alongside the React Testing Library.
+  For more information on [Jest](https://jestjs.io/docs/getting-started), and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+
+### Running the Tests
+
+1. **Run All Tests**:
+
+   ```
+   npm test
+   ```
+
+   This will start Jest in watch mode, re-running tests related to changed files.
+
+2. **Run All Tests Once**:
+
+   ```
+   npm test -- --watchAll=false
+   ```
+
+3. **Check Code Coverage**:
+   ```
+   npm test -- --coverage
+   ```
+   This generates a coverage report in the `coverage` directory.
+
+### Continuous Integration
+
+Ensure all tests pass locally before pushing your changes. Please ensure that the pull request include associated tests, and they pass accordingly.
+
+Remember, tests are a crucial part of our development process. They help catch bugs early, serve as documentation, and make refactoring easier. If you're unsure about how to test a particular feature, don't hesitate to ask for help!
 
 ## Project Vision and Roadmap
 
@@ -154,7 +190,63 @@ We welcome contributions that align with these goals and any innovative ideas th
 
 ## Design and Architecture
 
-[Provide high-level information about the project's design and architecture]
+SMARTJ is a web application designed to help job seekers practice interview skills and find job opportunities. Here's a high-level overview of its architecture and design:
+
+### Overall Architecture
+
+SMARTJ follows a client-side rendering architecture using React.js. The application is structured as a single-page application (SPA) with client-side routing.
+
+### Key Components
+
+1. **Interview Practice Module**
+
+   - Question Bank: Stores and manages interview questions
+   - Practice Session: Handles the flow of an interview practice session
+   - Video Recording: Manages video capture for responses (planned feature)
+
+2. **Job Finder Module**
+
+   - Job Listing: Curates links to job postings
+
+3. **User Interface Components**
+   - Navigation: Handles routing between different sections of the app
+   - Forms: Manages user inputs for various features
+   - Results Display: Presents job listings and practice session results
+
+### Data Flow
+
+1. User interacts with the UI components
+2. React components manage local state and trigger actions
+3. Actions update the application state
+4. UI re-renders based on the new state
+
+### State Management
+
+- Currently using React's built-in state management (useState, useContext)
+
+### Routing
+
+- Uses React Router for client-side routing
+- Main routes include Home, InterviewSettings, InterviewPractice, JobFinder, ContactUs, MyProfile, SummaryPage
+
+### Future Scalability Considerations
+
+1. **Backend Integration**
+
+   - Plan to introduce a backend API such as SUPABASE for data persistence and more complex operations
+
+2. **Database**
+
+   - Future implementation of a database to store user data, question banks, and job listings
+   - Considering options like MongoDB for flexibility or PostgreSQL for structured data
+
+3. **Authentication**
+   - Planning to implement user authentication for personalized experiences
+
+### Testing Strategy
+
+- Jest and React Testing Library for unit and integration tests
+- Emphasis on unit testing.
 
 ## Communication
 

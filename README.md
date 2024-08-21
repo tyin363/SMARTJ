@@ -36,7 +36,8 @@ SMARTJ is built using a modern web development stack. Here are the key technolog
 
 ### Testing
 
-[add testing here]
+- Jest - JavaScript Testing Framework
+- React Testing Library - Testing utilities for React
 
 ## Getting Started
 
@@ -57,14 +58,15 @@ SMARTJ is built using a modern web development stack. Here are the key technolog
 
 ### Running Tests
 
-[Explain how to run the automated tests for this system]
+- To run the testing of the SMARTJ project, navigate to the root directory and run `npm test -- --watchAll=false`
+- To access more specific Watch Usage testing (such as running failed tests), simply run `npm test`
 
 ## Usage
 
 There are two main features of the SMARTJ application: Interview Practice and Job Finder<br />
 **This section gives a brief rundown on how to use these features.**
 
-### Inteview Practice
+### Interview Practice
 
 - Navigate to the Interview Practice page through the home page or navigation bar
 - Choose your interview setting preference
@@ -74,8 +76,6 @@ There are two main features of the SMARTJ application: Interview Practice and Jo
 
 - Navigate to the Job Finder page through the home page or navigation bar
 - On the page, you can choose to click and be redirected to 6 Software Engineering curated job finding links from sites such as Prosple
-
-[Provide instructions on how to use the main features of the application]
 
 ## License
 
