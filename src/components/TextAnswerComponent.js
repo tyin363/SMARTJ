@@ -1,22 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import Countdown from "react-countdown";
 
-const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) => {
-  const [color, setTimerTextColor] = useState("black");
-  const [isCountdownActive, setIsCountdownActive] = useState(true);
-  const [remainingTime, setRemainingTime] = useState(timeLimit);
-  const [answer, setAnswer] = useState("");
-  const [timerText, setTimerText] = useState(timeLimit);
-  const [isTyping, setIsTyping] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  const countdownStartTime = useRef(Date.now() + readingTime * 1000);
-  const timeLimitStartTime = useRef(null);
-  const recordingTimer = useRef(null);
+// TextAnswerComponent handles a timed text input for answers with a countdown
+const TextAnswerComponent = ({
+  readingTime,
+  timeLimit,
+  onSubmit,
+  goToSummary,
+}) => {
+  const [color, setTimerTextColor] = useState("black"); // Color of the timer text
+  const [isCountdownActive, setIsCountdownActive] = useState(true); // Whether the countdown is active
+  const [remainingTime, setRemainingTime] = useState(timeLimit); // Remaining time for answering
+  const [answer, setAnswer] = useState(""); // The user's answer
+  const [timerText, setTimerText] = useState(timeLimit); // Displayed timer text
+  const [isTyping, setIsTyping] = useState(false); // Indicates if the user is currently typing
+  const [isSubmitted, setIsSubmitted] = useState(false); // Indicates if the answer has been submitted
+
+  const countdownStartTime = useRef(Date.now() + readingTime * 1000); // Start time for countdown
+  const timeLimitStartTime = useRef(null); // Start time for answering period
+  const recordingTimer = useRef(null); // Timer for tracking typing duration
 
   // Timer for typing (main answer timer)
   useEffect(() => {
     if (isTyping) {
+      // Update the remaining time every second while typing
       recordingTimer.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           const newTime = prevTime - 1;
@@ -25,23 +32,24 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
         });
       }, 1000);
     } else if (recordingTimer.current) {
+      // Clear the timer when typing stops
       clearInterval(recordingTimer.current);
     }
 
-    return () => clearInterval(recordingTimer.current);
+    return () => clearInterval(recordingTimer.current); // Cleanup on unmount
   }, [isTyping]);
 
-  // Update the timer text and color
+  // Update the timer text and color based on the remaining time
   const updateTimer = (count) => {
-    setTimerTextColor(count < 11 ? "red" : "black");
-    setTimerText(count > 0 ? count : "Time's Up");
+    setTimerTextColor(count < 11 ? "red" : "black"); // Change color when time is less than 11 seconds
+    setTimerText(count > 0 ? count : "Time's Up"); // Update timer text
 
     if (count <= 0) {
-      submitAnswer();
+      submitAnswer(); // Submit the answer when time runs out
     }
   };
 
-  // Automatically start the time limit timer after reading time
+  // Start the time limit timer after reading time is over
   const startAnswering = () => {
     setIsCountdownActive(false);
     timeLimitStartTime.current = Date.now() + timeLimit * 1000;
@@ -57,18 +65,20 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
     countdownStartTime.current = Date.now() + readingTime * 1000;
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
-      startAnswering(); 
+      startAnswering(); // Begin answering phase after reading time
     }, readingTime * 1000);
 
-    return () => clearTimeout(readingTimer);
+    return () => clearTimeout(readingTimer); // Cleanup on unmount
   }, [readingTime]);
 
+  // Handle answer submission
   const submitAnswer = () => {
     setIsTyping(false);
     setIsSubmitted(true);
-    onSubmit(answer, timeLimit - remainingTime);
+    onSubmit(answer, timeLimit - remainingTime); // Call the onSubmit handler with answer and elapsed time
   };
 
+  // Reset the answer and timers
   const resetAnswer = () => {
     setAnswer("");
     setTimerText(timeLimit);
@@ -80,19 +90,22 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
     countdownStartTime.current = Date.now() + readingTime * 1000;
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
-      startAnswering();
+      startAnswering(); // Restart answering phase
     }, readingTime * 1000);
 
-    return () => clearTimeout(readingTimer);
+    return () => clearTimeout(readingTimer); // Cleanup on unmount
   };
 
+  // Render countdown timer or message based on countdown status
   const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
       return <span>Start Answering!</span>;
     } else {
       return (
         <span>
-          {minutes > 0 ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` : seconds}
+          {minutes > 0
+            ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+            : seconds}
         </span>
       );
     }
@@ -107,7 +120,10 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
       <div className="text-input-container">
         {isCountdownActive && (
           <div className="overlay-text">
-            <Countdown date={countdownStartTime.current} renderer={countdownTimer} />
+            <Countdown
+              date={countdownStartTime.current}
+              renderer={countdownTimer}
+            />
           </div>
         )}
 
@@ -117,7 +133,12 @@ const TextAnswerComponent = ({ readingTime, timeLimit, onSubmit, goToSummary }) 
             rows="10"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            disabled={!isTyping || remainingTime <= 0 || isCountdownActive || isSubmitted}
+            disabled={
+              !isTyping ||
+              remainingTime <= 0 ||
+              isCountdownActive ||
+              isSubmitted
+            }
             placeholder="Start typing your answer here..."
           />
         )}

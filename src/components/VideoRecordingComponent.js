@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Countdown from "react-countdown";
 
+// VideoRecordingComponent handles video recording with a countdown timer
 const VideoRecordingComponent = ({
   readingTime,
   timeLimit,
@@ -8,22 +9,23 @@ const VideoRecordingComponent = ({
   recordedChunks,
   goToSummary,
 }) => {
-  const [color, setTimerTextColor] = useState("black");
-  const [isRecording, setIsRecording] = useState(false);
-  const [isReplay, setIsReplay] = useState(false);
-  const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [videoURL, setVideoURL] = useState(null);
-  const [remainingTime, setRemainingTime] = useState(timeLimit);
-  const countdownStartTime = useRef(Date.now() + readingTime * 1000);
+  const [color, setTimerTextColor] = useState("black"); // Color of the timer text
+  const [isRecording, setIsRecording] = useState(false); // Whether recording is in progress
+  const [isReplay, setIsReplay] = useState(false); // Whether to replay the recorded video
+  const [isCountdownActive, setIsCountdownActive] = useState(false); // Whether countdown is active
+  const [videoURL, setVideoURL] = useState(null); // URL of the recorded video
+  const [remainingTime, setRemainingTime] = useState(timeLimit); // Remaining time for recording
+  const countdownStartTime = useRef(Date.now() + readingTime * 1000); // Start time for countdown
   const [areCameraAndMicAvailable, setAreCameraAndMicAvailable] =
-    useState(false);
-  const [timerText, setTimerText] = useState(timeLimit);
+    useState(false); // Camera and mic availability status
+  const [timerText, setTimerText] = useState(timeLimit); // Displayed timer text
 
-  const mediaRecorderRef = useRef(null);
-  const videoRef = useRef(null);
-  const streamRef = useRef(null);
-  const recordingTimer = useRef(null);
+  const mediaRecorderRef = useRef(null); // Reference to MediaRecorder instance
+  const videoRef = useRef(null); // Reference to video element
+  const streamRef = useRef(null); // Reference to media stream
+  const recordingTimer = useRef(null); // Timer for tracking recording duration
 
+  // Check and initialize media devices (camera and microphone) on component mount
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -40,6 +42,7 @@ const VideoRecordingComponent = ({
         setAreCameraAndMicAvailable(false);
       });
 
+    // Cleanup media stream on component unmount
     return () => {
       if (streamRef.current) {
         const tracks = streamRef.current.getTracks();
@@ -48,6 +51,7 @@ const VideoRecordingComponent = ({
     };
   }, []);
 
+  // Timer to handle the recording duration and check media access
   useEffect(() => {
     if (isRecording) {
       recordingTimer.current = setInterval(() => {
@@ -76,35 +80,38 @@ const VideoRecordingComponent = ({
         });
       }, 1000);
     } else if (recordingTimer.current) {
-      clearInterval(recordingTimer.current);
+      clearInterval(recordingTimer.current); // Clear timer if not recording
     }
 
+    // Cleanup timer on component unmount
     return () => clearInterval(recordingTimer.current);
   }, [isRecording]);
 
-    // Effect to handle readingTime countdown
-    useEffect(() => {
-      setIsCountdownActive(true);
-      const readingTimer = setTimeout(() => {
-        setIsCountdownActive(false);
-        startRecording(); 
-      }, 0);
-  
-      return () => clearTimeout(readingTimer);
-    }, [readingTime]);
+  // Effect to handle the countdown before recording starts
+  useEffect(() => {
+    setIsCountdownActive(true);
+    const readingTimer = setTimeout(() => {
+      setIsCountdownActive(false);
+      startRecording(); // Start recording after reading time
+    }, readingTime * 1000);
 
-    
+    // Cleanup countdown timer on component unmount
+    return () => clearTimeout(readingTimer);
+  }, [readingTime]);
+
+  // Update the timer text and color based on the remaining time
   const updateTimer = (count) => {
-    setTimerTextColor(count < 11 ? "red" : "black");
-    setTimerText(count > 0 ? count : "Time's Up");
+    setTimerTextColor(count < 11 ? "red" : "black"); // Change color when time is less than 11 seconds
+    setTimerText(count > 0 ? count : "Time's Up"); // Update timer text
 
     if (count <= 0) {
       setTimeout(() => {
-        stopRecording();
+        stopRecording(); // Automatically stop recording when time is up
       }, 100);
     }
   };
 
+  // Start the recording process
   function startRecording() {
     setIsReplay(false);
     setIsCountdownActive(true);
@@ -138,6 +145,7 @@ const VideoRecordingComponent = ({
     }, readingTime * 1000);
   }
 
+  // Stop the recording process
   function stopRecording() {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -145,19 +153,21 @@ const VideoRecordingComponent = ({
     setIsRecording(false);
   }
 
+  // Handle data availability from the MediaRecorder
   function handleDataAvailable(event) {
     if (event.data.size > 0) {
       setRecordedChunks((prev) => [...prev, event.data]);
     }
   }
 
+  // Replay the recorded video
   function replayRecording() {
     const blob = new Blob(recordedChunks, { type: "video/webm" });
     setVideoURL(URL.createObjectURL(blob));
     setIsReplay(true);
   }
 
-  // Renderer for the countdown
+  // Renderer for the countdown timer
   const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
       return <span>Start Answering!</span>;
@@ -165,7 +175,9 @@ const VideoRecordingComponent = ({
       // Display minutes and seconds properly
       return (
         <span>
-          {minutes > 0 ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` : seconds}
+          {minutes > 0
+            ? `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+            : seconds}
         </span>
       );
     }
@@ -188,12 +200,13 @@ const VideoRecordingComponent = ({
         />
         {isCountdownActive && (
           <div className="overlay-text">
-            <Countdown date={Date.now() + readingTime * 1000} renderer={countdownTimer} />
+            <Countdown
+              date={Date.now() + readingTime * 1000}
+              renderer={countdownTimer}
+            />
           </div>
         )}
-        {videoURL && isReplay && (
-          <video src={videoURL} controls />
-        )}
+        {videoURL && isReplay && <video src={videoURL} controls />}
       </div>
 
       <div className="button-container">
