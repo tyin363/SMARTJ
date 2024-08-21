@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import Countdown from "react-countdown";
 
 const TextAnswerComponent = ({
-  readingTime,
-  timeLimit,
-  onSubmit,
-  goToSummary,
+  readingTime, // Time allocated for reading the question
+  timeLimit, // Time limit for answering the question
+  onSubmit, // Callback function to handle answer submission
+  goToSummary, // Function to navigate to the summary (not used in this snippet)
 }) => {
+  // State variables for timer color, countdown status, remaining time, answer text, etc.
   const [color, setTimerTextColor] = useState("black");
   const [isCountdownActive, setIsCountdownActive] = useState(true);
   const [remainingTime, setRemainingTime] = useState(timeLimit);
@@ -18,34 +19,36 @@ const TextAnswerComponent = ({
   const countdownStartTime = useRef(Date.now() + readingTime * 1000);
   const recordingTimer = useRef(null);
 
-  // Timer for typing (main answer timer)
+  // Timer for the main answering phase
   useEffect(() => {
     if (isTyping) {
+      // Set up an interval to decrement the remaining time every second
       recordingTimer.current = setInterval(() => {
         setRemainingTime((prevTime) => {
           const newTime = prevTime - 1;
-          updateTimer(newTime);
+          updateTimer(newTime); // Update timer display and color
           return newTime;
         });
       }, 1000);
     } else if (recordingTimer.current) {
+      // Clear the interval if typing is stopped
       clearInterval(recordingTimer.current);
     }
 
     return () => clearInterval(recordingTimer.current);
   }, [isTyping]);
 
-  // Update the timer text and color
+  // Function to update the timer display and color based on remaining time
   const updateTimer = (count) => {
-    setTimerTextColor(count < 11 ? "red" : "black");
-    setTimerText(count > 0 ? count : "Time's Up");
+    setTimerTextColor(count < 11 ? "red" : "black"); // Change color near time limit
+    setTimerText(count > 0 ? count : "Time's Up"); // Update display text
 
     if (count <= 0) {
-      submitAnswer();
+      submitAnswer(); // Automatically submit answer when time runs out
     }
   };
 
-  // Automatically start the time limit timer after reading time
+  // Function to start the answering phase after reading time
   const startAnswering = () => {
     setIsCountdownActive(false);
     setRemainingTime(timeLimit);
@@ -54,23 +57,25 @@ const TextAnswerComponent = ({
     setIsSubmitted(false);
   };
 
-  // Automatically start the countdown when the component mounts
+  // Automatically start the countdown timer when the component mounts
   useEffect(() => {
     setIsCountdownActive(true);
     const readingTimer = setTimeout(() => {
       setIsCountdownActive(false);
-      startAnswering();
+      startAnswering(); // Start answering phase after reading time
     }, readingTime * 1000);
 
     return () => clearTimeout(readingTimer);
   }, [readingTime]);
 
+  // Function to submit the answer and trigger the onSubmit callback
   const submitAnswer = () => {
     setIsTyping(false);
     setIsSubmitted(true);
     onSubmit(answer, timeLimit - remainingTime);
   };
 
+  // Function to reset the component to its initial state
   const resetAnswer = () => {
     setAnswer("");
     setTimerText(timeLimit);
@@ -87,9 +92,10 @@ const TextAnswerComponent = ({
     return () => clearTimeout(readingTimer);
   };
 
+  // Renderer function for the countdown timer display
   const countdownTimer = ({ minutes, seconds, completed }) => {
     if (completed) {
-      startAnswering();
+      startAnswering(); // Start answering phase when countdown completes
       return <span>Start Answering!</span>;
     } else {
       return (
@@ -115,6 +121,7 @@ const TextAnswerComponent = ({
 
   return (
     <div>
+      {/* Display countdown timer and skip button if countdown is active */}
       {!isTyping && isCountdownActive && (
         <div className="reading-time-container" style={{ fontSize: "18px" }}>
           {isCountdownActive && (
@@ -139,10 +146,12 @@ const TextAnswerComponent = ({
         </div>
       )}
 
+      {/* Display timer text for answering phase */}
       <div className="timer-text">
         <h5 style={{ color }}>Answer Time: {timerText}</h5>
       </div>
 
+      {/* Textarea for typing the answer */}
       <div className="text-input-container">
         {!isCountdownActive && (
           <textarea
@@ -156,9 +165,14 @@ const TextAnswerComponent = ({
         )}
       </div>
 
+      {/* Submit button for the answer */}
       <div className="button-container mt-4">
         {!isCountdownActive && !isSubmitted && remainingTime > 0 && (
-          <button style={{borderColor: "black"}} onClick={submitAnswer} className="btn btn-success me-2 ">
+          <button
+            style={{ borderColor: "black" }}
+            onClick={submitAnswer}
+            className="btn btn-success me-2"
+          >
             Submit Answer
           </button>
         )}

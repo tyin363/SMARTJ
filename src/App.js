@@ -19,6 +19,7 @@ function App() {
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
+        {/* Navbar component for site navigation */}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">
             <img
@@ -42,6 +43,7 @@ function App() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
+              {/* Navigation links */}
               <li className="nav-item">
                 <Link className="nav-link" to="/">
                   Home
@@ -71,8 +73,10 @@ function App() {
           </div>
         </nav>
 
+        {/* Main content area that renders the routes */}
         <div className="flex-grow-1">
           <Routes>
+            {/* Define routes and their corresponding components */}
             <Route path="/" element={<Home />} />
             <Route path="/interview-settings" element={<InterviewSettings />} />
             <Route path="/interview-practice" element={<InterviewPractice />} />
@@ -83,12 +87,14 @@ function App() {
           </Routes>
         </div>
 
+        {/* Footer component for site-wide information */}
         <footer
           className="text-center text-white mt-auto"
           style={{ backgroundColor: "#67a9d2" }}
         >
           <div className="container p-4 pb-0">
             <section className="mb-4">
+              {/* Social media and GitHub links */}
               <a
                 className="btn btn-outline-light btn-floating m-1"
                 href="#!"
@@ -141,7 +147,7 @@ function App() {
               color: "black",
             }}
           >
-            © 2024 Copyright:
+            {/* Footer copyright information */}© 2024 Copyright:
             <a
               className="text-black"
               href="https://github.com/SOFTENG310-Team4/SMARTJ/"
